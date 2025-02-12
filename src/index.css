@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style-type: none;
+}
+
+.container {
+  max-width: 92%;
+  margin: auto;
+}
+
+.align-right {
+  text-align: right !important;
+  display: block;
+}
+
+img {
+  user-select: none;
+}
+
+.select-none {
+  user-select: none;
+}
