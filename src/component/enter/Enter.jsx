@@ -8,10 +8,10 @@ import {
   Building,
   GraduationCap,
   School,
-  ArrowRight,
   AlertCircle,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import EnterImg from "../../assets/519e095758e3a68e9900795fa324e800--study-notes-study-hard.jpg";
 
 export const StudentForm = () => {
   const [formData, setFormData] = useState({
@@ -121,9 +121,9 @@ export const StudentForm = () => {
     <div className="min-h-screen flex flex-col md:flex-row">
       <div className="w-full md:w-1/2 bg-indigo-100 relative hidden md:block">
         <img
-          src="/api/placeholder/1200/900"
+          src={EnterImg}
           alt="Students studying"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-[100%] h-[100%] object-cover"
         />
         <div className="absolute inset-0 bg-indigo-900 bg-opacity-20"></div>
       </div>
@@ -132,7 +132,7 @@ export const StudentForm = () => {
         <div className="max-w-lg mx-auto">
           <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center gap-2">
             <GraduationCap className="w-8 h-8 text-indigo-600" />
-            Talaba ro'yxatdan o'tish
+             Ro'yxatdan o'tish
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-6">

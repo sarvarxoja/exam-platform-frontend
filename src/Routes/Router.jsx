@@ -3,6 +3,7 @@ import { StudentForm } from "../component/enter/Enter";
 import { ExamQuestions } from "../component/exam/Exam";
 import { useEffect } from "react";
 import { TestResults } from "../component/result/Result";
+import LoadingAnimation from "../component/loader/Loader";
 
 export const Router = () => {
   const navigate = useNavigate();

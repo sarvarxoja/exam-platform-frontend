@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, CheckCircle } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import LoadingAnimation from "../loader/Loader";
 
 export const ExamQuestions = () => {
   const questionsPerPage = 10;
@@ -80,6 +81,7 @@ export const ExamQuestions = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+    <LoadingAnimation/>
       {/* Header */}
       <div className="bg-white shadow-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
@@ -184,7 +186,7 @@ export const ExamQuestions = () => {
           ) : (
             <button
               onClick={handleSubmit}
-              className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-sm text-sm px-5 py-2.5"
+              className="px-6 py-2.5 rounded-xl bg-emerald-600 text-white font-medium hover:bg-emerald-700"
             >
               Tugatish
             </button>

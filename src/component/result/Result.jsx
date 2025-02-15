@@ -37,7 +37,7 @@ export const TestResults = () => {
             <div className="flex flex-col items-center justify-center">
               <div className="relative">
                 <div className="w-40 h-40 lg:w-48 lg:h-48 rounded-full border-8 border-gray-200 flex items-center justify-center">
-                  <span className={`text-4xl lg:text-5xl font-bold ${getScoreColor(correctPercentage)}`}>
+                  <span className={`text-4xl lg:text-5xl font-bold ${getScoreColor(correctPercentage || 0)}`}>
                     {getIntegerPart(correctPercentage)}%
                   </span>
                 </div>
