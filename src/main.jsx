@@ -5,7 +5,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 
-axios.defaults.baseURL = "http://localhost:2310"
+axios.defaults.baseURL = "https://admin.alsafia.uz/api"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
