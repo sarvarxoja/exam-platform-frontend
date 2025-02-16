@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight, CheckCircle } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import LoadingAnimation from "../loader/Loader";
+import React, { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight, CheckCircle } from "lucide-react";
 
 export const ExamQuestions = () => {
   const questionsPerPage = 10;
@@ -25,10 +25,8 @@ export const ExamQuestions = () => {
     }
   }
 
-  // Jami sahifalar soni
   const totalPages = Math.ceil(questions.length / questionsPerPage);
 
-  // Hozirgi sahifadagi savollarni olish
   const getCurrentQuestions = () => {
     const startIndex = (currentPage - 1) * questionsPerPage;
     return questions.slice(startIndex, startIndex + questionsPerPage);
@@ -38,7 +36,7 @@ export const ExamQuestions = () => {
     setSelectedAnswers((prev) => ({
       ...prev,
       [questionId]: {
-        selectedOption: optionText, // To'g'ridan-to'g'ri variant matnini saqlaymiz
+        selectedOption: optionText,
       },
     }));
   };
@@ -70,19 +68,51 @@ export const ExamQuestions = () => {
         data
       );
       localStorage.setItem("check", true);
-      localStorage.setItem("correctCount", response.data.correctCount)
-      localStorage.setItem("correctPercentage", response.data.correctPercentage)
-      localStorage.setItem("wrongCount", response.data.wrongCount)
+      localStorage.setItem("correctCount", response.data.correctCount);
+      localStorage.setItem("correctPercentage", response.data.correctPercentage);
+      localStorage.setItem("wrongCount", response.data.wrongCount);
       return navigate("/exam/answer");
     } catch (error) {
       console.error("Xatolik yuz berdi:", error);
     }
   };
 
+  // Function to generate page numbers for pagination
+  const getPageNumbers = () => {
+    const pages = [];
+    if (totalPages <= 5) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) {
+          pages.push(i);
+        }
+        pages.push('...');
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1);
+        pages.push('...');
+        for (let i = totalPages - 3; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        pages.push(1);
+        pages.push('...');
+        pages.push(currentPage - 1);
+        pages.push(currentPage);
+        pages.push(currentPage + 1);
+        pages.push('...');
+        pages.push(totalPages);
+      }
+    }
+    return pages;
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
-    <LoadingAnimation/>
-      {/* Header */}
+      <LoadingAnimation />
       <div className="bg-white shadow-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
@@ -94,7 +124,6 @@ export const ExamQuestions = () => {
         </div>
       </div>
 
-      {/* Main content */}
       <div className="max-w-5xl mx-auto px-4 py-8">
         <div className="space-y-8">
           {getCurrentQuestions().map((question) => (
@@ -118,19 +147,19 @@ export const ExamQuestions = () => {
                     key={optionIndex}
                     onClick={() => handleAnswerSelect(question._id, option)}
                     className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 flex items-start space-x-3
-      ${
-        selectedAnswers[question._id]?.selectedOption === option
-          ? "border-indigo-500 bg-indigo-50"
-          : "border-gray-200 hover:border-indigo-500 hover:bg-indigo-50"
-      }`}
+                      ${
+                        selectedAnswers[question._id]?.selectedOption === option
+                          ? "border-indigo-500 bg-indigo-50"
+                          : "border-gray-200 hover:border-indigo-500 hover:bg-indigo-50"
+                      }`}
                   >
                     <span
                       className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5
-      ${
-        selectedAnswers[question._id]?.selectedOption === option
-          ? "border-indigo-500 text-indigo-500"
-          : "border-gray-300 text-gray-500"
-      }`}
+                      ${
+                        selectedAnswers[question._id]?.selectedOption === option
+                          ? "border-indigo-500 text-indigo-500"
+                          : "border-gray-300 text-gray-500"
+                      }`}
                     >
                       {String.fromCharCode(65 + optionIndex)}
                     </span>
@@ -142,51 +171,57 @@ export const ExamQuestions = () => {
           ))}
         </div>
 
-        {/* Pagination */}
+        {/* Updated Pagination */}
         <div className="mt-8 flex items-center justify-between bg-white rounded-xl shadow-lg p-4">
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 
+            className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 
               ${
                 currentPage === 1
                   ? "text-gray-400 cursor-not-allowed"
                   : "text-gray-700 hover:bg-gray-100"
               }`}
           >
-            <ChevronLeft className="w-5 h-5" />
-            <span>Oldingi</span>
+            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="hidden sm:inline">Oldingi</span>
           </button>
 
-          <div className="flex space-x-2">
-            {Array.from({ length: totalPages }, (_, i) => (
-              <button
-                key={i}
-                onClick={() => handlePageChange(i + 1)}
-                className={`w-10 h-10 rounded-lg font-medium transition-all duration-200 
-                  ${
-                    currentPage === i + 1
-                      ? "bg-indigo-600 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
-              >
-                {i + 1}
-              </button>
+          <div className="flex flex-wrap justify-center gap-1 sm:gap-2">
+            {getPageNumbers().map((pageNum, idx) => (
+              pageNum === '...' ? (
+                <span key={`dots-${idx}`} className="px-2 py-1.5 text-gray-500">
+                  ...
+                </span>
+              ) : (
+                <button
+                  key={idx}
+                  onClick={() => handlePageChange(pageNum)}
+                  className={`min-w-[32px] h-8 sm:min-w-[40px] sm:h-10 rounded-lg font-medium text-sm sm:text-base transition-all duration-200 
+                    ${
+                      currentPage === pageNum
+                        ? "bg-indigo-600 text-white"
+                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    }`}
+                >
+                  {pageNum}
+                </button>
+              )
             ))}
           </div>
 
           {currentPage < totalPages ? (
             <button
               onClick={() => handlePageChange(currentPage + 1)}
-              className="flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200"
+              className="flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100"
             >
-              <span>Keyingi</span>
-              <ChevronRight className="w-5 h-5" />
+              <span className="hidden sm:inline">Keyingi</span>
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           ) : (
             <button
               onClick={handleSubmit}
-              className="px-6 py-2.5 rounded-xl bg-emerald-600 text-white font-medium hover:bg-emerald-700"
+              className="px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl bg-emerald-600 text-white font-medium hover:bg-emerald-700 transition-all duration-200"
             >
               Tugatish
             </button>
