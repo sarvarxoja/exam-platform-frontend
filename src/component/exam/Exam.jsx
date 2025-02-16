@@ -64,7 +64,7 @@ export const ExamQuestions = () => {
       };
       console.log(data);
       const response = await axios.post(
-        "http://localhost:2310/results/create",
+        "/results/create",
         data
       );
       localStorage.setItem("check", true);
